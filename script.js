@@ -1,5 +1,5 @@
 const apiKey = "e95eb077ed69a6a387ac5e3bde38b47a";
-const city = "London";
+const city = "London,uk";
 
 document.getElementById("getWeatherBtn").addEventListener("click", () => {
 const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
@@ -24,17 +24,4 @@ const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${a
   });
 });
 
-describe("Weather App", () => {
-  it("should fetch and display weather data", () => {
-    cy.intercept('GET', '**/data/2.5/weather**').as('getCurrentWeather');
 
-    cy.visit('/'); // or wherever your page loads
-
-    cy.get('#getWeatherBtn').click();
-
-    cy.wait('@getCurrentWeather'); // Cypress waits for the network request
-
-    cy.get('#weatherData')
-      .should('contain.text', 'Current weather in London');
-  });
-});
