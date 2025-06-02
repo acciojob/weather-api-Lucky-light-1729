@@ -23,3 +23,18 @@ const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${a
     document.getElementById("weatherData").textContent = `Error fetching weather data: ${error.message}`;
   });
 });
+
+describe("Weather App", () => {
+  it("should fetch and display weather data", () => {
+    cy.intercept('GET', '**/data/2.5/weather**').as('getCurrentWeather');
+
+    cy.visit('/'); // or wherever your page loads
+
+    cy.get('#getWeatherBtn').click();
+
+    cy.wait('@getCurrentWeather'); // Cypress waits for the network request
+
+    cy.get('#weatherData')
+      .should('contain.text', 'Current weather in London');
+  });
+});
